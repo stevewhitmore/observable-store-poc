@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { CustomerModel } from './customer.model';
-import { CustomersStore, StoreStateModel } from './customers-store';
+import { CustomerModel } from '../models/customer.model';
+import { StoreStateModel } from '../models/store-state.model';
+import { CustomersStore } from './customers-store';
 
 @Component({
   selector: 'app-customers',
@@ -9,18 +10,11 @@ import { CustomersStore, StoreStateModel } from './customers-store';
 })
 export class CustomersComponent {
   @Input() customersData: CustomerModel[] = [];
-  @Input() state: StoreStateModel | undefined;
+  @Input() state: StoreStateModel = { customers: [], addMode: false };
+  customersStore: CustomersStore;
   displayedColumns: string[] = ['id', 'firstName', 'lastName', 'phone', 'email', 'memberSince', 'delete'];
-  addClicked = false;
 
-  constructor(private customersStore: CustomersStore) {}
-
-  addCustomer() {
-    this.customersStore.initAddMode();
+  constructor(customersStore: CustomersStore) {
+    this.customersStore = customersStore;
   }
-
-  deleteCustomer(customer: CustomerModel) {
-    this.customersStore.deleteCustomer(customer);
-  }
-
 }

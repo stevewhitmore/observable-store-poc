@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { CustomersStore } from '../customers-store';
 
 @Component({
@@ -9,6 +9,7 @@ import { CustomersStore } from '../customers-store';
 })
 export class AddCustomerComponent {
   formIsValid = false;
+  customersStore: CustomersStore;
   addCustomerForm = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
@@ -18,15 +19,8 @@ export class AddCustomerComponent {
 
   constructor(
     private fb: FormBuilder,
-    private customersStore: CustomersStore,  
-  ) {}
-
-  addUser() {
-    this.customersStore.addCustomer(this.addCustomerForm.value);
+    customersStore: CustomersStore,  
+  ) {
+    this.customersStore = customersStore;
   }
-
-  cancel() {
-    this.customersStore.resetView();
-  }
-
 }

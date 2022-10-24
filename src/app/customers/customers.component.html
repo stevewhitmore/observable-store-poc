@@ -1,4 +1,3 @@
-
 <mat-card>
     <mat-card-title>Customers</mat-card-title>
     <table mat-table [dataSource]="customersData" class="mat-elevation-z8">
@@ -39,8 +38,9 @@
                 <button
                     mat-icon-button
                     color="primary"
+                    class="deleteBtn"
                     aria-label="Delete customer"
-                    (click)="deleteCustomer(customer)">
+                    (click)="customersStore.deleteCustomer(customer)">
                     <mat-icon>delete</mat-icon>
                 </button>
             </td>
@@ -52,8 +52,9 @@
     <button
         mat-raised-button
         color="primary"
-        (click)="addCustomer()"
-        [disabled]="state?.addMode">
+        class="addBtn"
+        (click)="customersStore.initAddMode()"
+        [disabled]="state.addMode">
         Add
     </button>
     <div *ngIf="state?.addMode">

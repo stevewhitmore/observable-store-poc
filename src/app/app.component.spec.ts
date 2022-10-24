@@ -1,31 +1,50 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { CustomersStore } from './customers/customers-store';
+import { CustomersStoreStub } from './testing/customers-store.stub';
+
+const customersStoreStub = new CustomersStoreStub();
 
 describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
-  });
+    let component: AppComponent;
+    let fixture: ComponentFixture<AppComponent>
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            declarations: [ AppComponent ],
+            providers: [
+                { provide: CustomersStore, useValue: customersStoreStub },
+            ],
+        });
 
-  it(`should have as title 'observable-store-poc'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('observable-store-poc');
-  });
+        fixture = TestBed.createComponent(AppComponent);
+        component = fixture.componentInstance;
+    });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('observable-store-poc app is running!');
-  });
+    afterEach(fakeAsync(() => {
+        flush();
+    }));
+
+    describe('getInitialState()', () => {
+        it('should call "customersStore.get()"', () => {
+            const spy = spyOn(customersStoreStub, 'get');
+            
+            component.getInitialState();
+
+            expect(spy).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    describe('listenForStateChange()', () => {
+        it('should return whatever "customerStore.stateChanged" does', fakeAsync(() => {
+            const mockData = { customers: [], addMode: false };
+
+            component.listenForStateChange()
+                .subscribe({
+                    next: data => {
+                        expect(data).toEqual(mockData);
+                    },
+                });
+        }));
+    });
 });

@@ -1,51 +1,49 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { ObservableStore } from "@codewithdan/observable-store";
-import { of, tap } from "rxjs";
-import { SubSink } from "subsink";
-import { DataService } from "../data.service";
-import { CustomerModel } from "./customer.model";
+import { Injectable } from '@angular/core';
+import { ObservableStore } from '@codewithdan/observable-store';
+import { map, Observable, of, tap } from 'rxjs';
+import { SubSink } from 'subsink';
+import { DataService } from '../data.service';
+import { CustomerModel } from '../models/customer.model';
+import { StoreStateModel } from '../models/store-state.model';
 
-export interface StoreStateModel {
-    customers: CustomerModel[] | [];
-    addMode: boolean;
-}
 
 @Injectable()
-export class CustomersStore extends ObservableStore<StoreStateModel> implements OnDestroy {
+export class CustomersStore extends ObservableStore<StoreStateModel> {
     subs = new SubSink();
+    initialState = {
+        customers: [],
+        addMode: false,
+    };
 
     constructor(private dataService: DataService) {
-        const initialState = {
-            customers: [],
-            addMode: false,
-        };
         super({
-            logStateChanges: true,
+            // logStateChanges: true,
         })
 
-        this.setState(initialState, 'INIT_STATE');
+        this.setState(this.initialState, 'INIT_STATE');
     }
 
-    get() {
+    get(): Observable<StoreStateModel> {
         const state = this.getState();
-        return of(state);
-    }
+        if (state.customers.length) {
+            return of(state)
+        }
 
-    getCustomers() {
-        this.subs.sink = this.dataService.getData()
-            .subscribe({
-                next: ((customers: CustomerModel[]) => {
-                    console.log('foo')
-                    this.updateCustomers(customers);
+        return this.dataService.getData()
+            .pipe(
+                map((customers: CustomerModel[]) => {
+                    return {
+                        ...state,
+                        customers,
+                    }
                 }),
-            });
+                tap((state) => {
+                    this.setState(state, 'RETRIEVED_CUSTOMERS');
+                })
+            );
     }
 
-    updateCustomers(customers: CustomerModel[]) {
-        this.setState({ customers }, 'RETRIEVED_CUSTOMERS');
-    }
-
-    initAddMode() {
+    initAddMode(): void {
         const state = this.getState();
 
         const updatedState = {
@@ -56,9 +54,11 @@ export class CustomersStore extends ObservableStore<StoreStateModel> implements 
         this.setState(updatedState, 'INIT_ADD_MODE');
     }
 
-    addCustomer(customer: any) {
+    addCustomer(customer: any): void {
         const state = this.getState();
-        customer.id = Math.floor(Math.random() * 9999) + 1;
+        const ids = state.customers.map(c => c.id)
+        const newId = ids.length ? Math.max(...ids) + 1 : 1;
+        customer.id =  newId;
         customer.memberSince = new Date();
 
         const updatedState = {
@@ -67,9 +67,10 @@ export class CustomersStore extends ObservableStore<StoreStateModel> implements 
         };
 
         this.setState(updatedState, 'ADDED_CUSTOMER');
+        this.resetView();
     }
 
-    deleteCustomer(customer: CustomerModel) {
+    deleteCustomer(customer: CustomerModel): void {
         const state = this.getState();
         const updatedState = {
             ...state,
@@ -80,7 +81,7 @@ export class CustomersStore extends ObservableStore<StoreStateModel> implements 
         this.resetView();
     }
 
-    resetView() {
+    resetView(): void {
         const state = this.getState();
 
         const updatedState = {
@@ -89,9 +90,5 @@ export class CustomersStore extends ObservableStore<StoreStateModel> implements 
         };
 
         this.setState(updatedState, 'RESET_VIEW');
-    }
-
-    ngOnDestroy(): void {
-        this.subs.unsubscribe();
     }
 }
