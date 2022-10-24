@@ -1,0 +1,15 @@
+form {
+    margin: 2rem 0;
+    cursor: pointer;
+    max-width: 50%;
+}
+
+mat-form-field {
+    padding-right: 1rem;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    max-width: 90%;
+}

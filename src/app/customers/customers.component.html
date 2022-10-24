@@ -1,0 +1,58 @@
+
+<mat-card>
+    <mat-card-title>Customers</mat-card-title>
+    <table mat-table [dataSource]="customersData" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef> First Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef> Last Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef> Phone </th>
+        <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="memberSince">
+        <th mat-header-cell *matHeaderCellDef> Member Since </th>
+        <td mat-cell *matCellDef="let element"> {{element.memberSince | date}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="primary" aria-label="Delete customer">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <button
+        mat-raised-button
+        color="primary"
+        (click)="addCustomer()"
+        [disabled]="addClicked">
+        Add
+    </button>
+    <div *ngIf="addClicked">
+        <app-add-customer></app-add-customer>
+    </div>
+</mat-card>
