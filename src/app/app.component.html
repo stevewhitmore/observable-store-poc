@@ -1,4 +1,7 @@
 
-<div *ngIf="customersData$ | async as customers">
-    <app-customers [customersData]="customers"></app-customers>
+<div *ngIf="state$ | async as state">
+    <app-customers 
+        [customersData]="state.customers"
+        [state]="state">
+    </app-customers>
 </div>

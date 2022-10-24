@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CustomersStore } from '../customers-store';
 
 @Component({
   selector: 'app-add-customer',
@@ -15,14 +16,17 @@ export class AddCustomerComponent {
     email: ['', Validators.required],
   })
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private customersStore: CustomersStore,  
+  ) {}
 
   addUser() {
-    console.log(this.addCustomerForm.value)
+    this.customersStore.addCustomer(this.addCustomerForm.value);
   }
 
   cancel() {
-    this.addCustomerForm.reset();
+    this.customersStore.resetView();
   }
 
 }

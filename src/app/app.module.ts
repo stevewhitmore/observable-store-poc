@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CustomersComponent } from './customers/customers.component'
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddCustomerComponent } from './customers/add-customer/add-customer.component';
+import { CustomersStore } from './customers/customers-store';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,9 @@ import { AddCustomerComponent } from './customers/add-customer/add-customer.comp
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    CustomersStore,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

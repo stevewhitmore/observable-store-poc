@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { DataService } from './data.service';
-import { CustomerModel } from './customers/customer.model';
+import { Observable } from 'rxjs';
+import { CustomersStore, StoreStateModel } from './customers/customers-store';
 
 
 @Component({
@@ -11,11 +10,11 @@ import { CustomerModel } from './customers/customer.model';
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent implements OnInit {
-  customersData$: Observable<CustomerModel[]> = of([]);
-  
-  constructor(private dataService: DataService) {}
+  state$ = this.customersStore.stateChanged;
+
+  constructor(private customersStore: CustomersStore) {}
 
   ngOnInit(): void {
-    this.customersData$ = this.dataService.getData();
+    this.customersStore.getCustomers();
   }
 }

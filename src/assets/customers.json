@@ -5,6 +5,14 @@
         "lastName": "Everyman",
         "phone": "555-555-5555",
         "email": "bobeveryman@email.com",
-        "memberSince": "10/24/2022"
+        "memberSince": "01/05/1999"
+    },
+    {
+        "id": 2,
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "phone": "555-777-9999",
+        "email": "janesmith@email.com",
+        "memberSince": "09/07/2015"
     }
 ]
