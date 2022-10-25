@@ -16,9 +16,7 @@ export class AppComponent implements OnInit {
   constructor(private customersStore: CustomersStore) {}
 
   ngOnInit(): void {
-    const initialFetch$ = this.getInitialState();
-    const updatedState$ = this.listenForStateChange();
-    this.state$ = merge(initialFetch$, updatedState$)
+    this.setCustomersState();
   }
 
   getInitialState(): Observable<StoreStateModel> {
@@ -27,6 +25,12 @@ export class AppComponent implements OnInit {
 
   listenForStateChange(): Observable<StoreStateModel> {
     return this.customersStore.stateChanged;
+  }
+
+  setCustomersState() {
+    const initialFetch$ = this.getInitialState();
+    const updatedState$ = this.listenForStateChange();
+    this.state$ = merge(initialFetch$, updatedState$)
   }
 
 }
