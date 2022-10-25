@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const initialFetch$ = this.getInitialState();
-    const updatedState$ = this.listenForStateChange(); 
+    const updatedState$ = this.listenForStateChange();
     this.state$ = merge(initialFetch$, updatedState$)
   }
 

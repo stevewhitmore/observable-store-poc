@@ -8,7 +8,6 @@ import { CustomersStore } from '../customers-store';
   styleUrls: ['./add-customer.component.scss']
 })
 export class AddCustomerComponent {
-  formIsValid = false;
   customersStore: CustomersStore;
   addCustomerForm = this.fb.group({
     firstName: ['', Validators.required],
@@ -19,7 +18,7 @@ export class AddCustomerComponent {
 
   constructor(
     private fb: FormBuilder,
-    customersStore: CustomersStore,  
+    customersStore: CustomersStore,
   ) {
     this.customersStore = customersStore;
   }
