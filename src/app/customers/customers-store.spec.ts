@@ -84,14 +84,6 @@ describe('CustomersStore', () => {
                 }
             });
     }));
-
-    it('should call resetView()', fakeAsync(() => {
-        const spy = spyOn(customersStore, 'resetView');
-
-        customersStore.addCustomer(mockData[0]);
-
-        expect(spy).toHaveBeenCalledTimes(1);
-    }));
   });
 
   describe('deleteCustomer()', () => {
@@ -108,14 +100,6 @@ describe('CustomersStore', () => {
                     expect(data.customers.length).toBe(1);
                 }
             });
-    }));
-
-    it('should call resetView()', fakeAsync(() => {
-        const spy = spyOn(customersStore, 'resetView');
-
-        customersStore.deleteCustomer(mockData[0]);
-
-        expect(spy).toHaveBeenCalledTimes(1);
     }));
   });
 

@@ -62,12 +62,11 @@ export class CustomersStore extends ObservableStore<StoreStateModel> {
         customer.memberSince = new Date();
 
         const updatedState = {
-            ...state,
             customers: [ ...state.customers, customer ],
+            addMode: false,
         };
 
         this.setState(updatedState, 'ADDED_CUSTOMER');
-        this.resetView();
     }
 
     deleteCustomer(customer: CustomerModel): void {
@@ -78,7 +77,6 @@ export class CustomersStore extends ObservableStore<StoreStateModel> {
         };
 
         this.setState(updatedState, 'DELETED_CUSTOMER');
-        this.resetView();
     }
 
     resetView(): void {
