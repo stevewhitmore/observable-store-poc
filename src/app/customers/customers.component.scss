@@ -1,0 +1,12 @@
+table {
+    width: 100%;
+    margin: 2rem 0;
+}
+
+.mat-card:not([class*="mat-elevation-z"]) {
+    box-shadow: none;
+}
+
+button {
+    cursor: pointer;
+}

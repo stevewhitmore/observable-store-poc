@@ -1,0 +1,38 @@
+<form [formGroup]="addCustomerForm">
+    <mat-form-field class="example-form-field" appearance="fill">
+        <mat-label>First Name</mat-label>
+        <input matInput type="text" formControlName="firstName">
+    </mat-form-field>
+
+    <mat-form-field class="example-form-field" appearance="fill">
+        <mat-label>Last Name</mat-label>
+        <input matInput type="text" formControlName="lastName">
+    </mat-form-field>
+
+    <mat-form-field class="example-form-field" appearance="fill">
+        <mat-label>Phone</mat-label>
+        <input matInput type="text" formControlName="phone">
+    </mat-form-field>
+
+    <mat-form-field class="example-form-field" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email">
+    </mat-form-field>
+
+    <div class="button-group">
+        <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="!addCustomerForm.valid"
+            (click)="customersStore.addCustomer(addCustomerForm.value)">
+            Save
+        </button>
+        <button
+            mat-raised-button
+            type="button"
+            (click)="customersStore.resetView()">
+            Cancel
+        </button>
+    </div>
+</form>
