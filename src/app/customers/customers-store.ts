@@ -17,7 +17,7 @@ export class CustomersStore extends ObservableStore<StoreStateModel> {
 
     constructor(private dataService: DataService) {
         super({
-            // logStateChanges: true,
+            logStateChanges: true,
         })
 
         this.setState(this.initialState, 'INIT_STATE');
